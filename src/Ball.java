@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.security.SecureRandom;
 import java.util.Random;
 
 class Ball {
@@ -22,19 +23,19 @@ class Ball {
 
         // Випадкова початкова позиція
         if (Math.random() < 0.5) {
-            x = new Random().nextInt(this.canvas.getWidth());
+            x = new SecureRandom().nextInt(this.canvas.getWidth());
             y = 0;
         } else {
             x = 0;
-            y = new Random().nextInt(this.canvas.getHeight());
+            y = new SecureRandom().nextInt(this.canvas.getHeight());
         }
         
         // Випадкова швидкість
-        dx = 1 + new Random().nextInt(5);
-        dy = 1 + new Random().nextInt(5);
+        dx = 1 + new SecureRandom().nextInt(5);
+        dy = 1 + new SecureRandom().nextInt(5);
         
         // Випадковий колір
-        Random rand = new Random();
+        Random rand = new SecureRandom();
         float r = rand.nextFloat();
         float g = rand.nextFloat();
         float b = rand.nextFloat();

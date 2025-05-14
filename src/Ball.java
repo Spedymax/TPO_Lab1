@@ -3,14 +3,19 @@ import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 class Ball {
-    private Component canvas;
+    private final Component canvas;
     private static final int XSIZE = 20;
     private static final int YSIZE = 20;
-    private int x = 0;
-    private int y = 0;
-    private int dx = 2;
-    private int dy = 2;
-    private Color color;
+    private int x;
+    private int y;
+    private int dx;
+    private int dy;
+    private final Color color;
+    private boolean inPocket = false;
+    
+
+    private static final int POCKET_WIDTH = 60;
+    private static final int POCKET_HEIGHT = 60;
 
     public Ball(Component c) {
         this.canvas = c;
@@ -37,11 +42,13 @@ class Ball {
     }
 
     public void draw(Graphics2D g2) {
-        g2.setColor(color);
-        g2.fill(new Ellipse2D.Double(x, y, XSIZE, YSIZE));
+        if (!inPocket) {
+            g2.setColor(color);
+            g2.fill(new Ellipse2D.Double(x, y, XSIZE, YSIZE));
+        }
     }
 
-    public void move() {
+    public boolean move() {
         x += dx;
         y += dy;
         if (x < 0) {
@@ -60,6 +67,18 @@ class Ball {
             y = this.canvas.getHeight() - YSIZE;
             dy = -dy;
         }
+
+        int pocketX = this.canvas.getWidth() / 2 - POCKET_WIDTH / 2;
+        int pocketY = this.canvas.getHeight() / 2 - POCKET_HEIGHT / 2;
+        
+        if (x >= pocketX && x + XSIZE <= pocketX + POCKET_WIDTH && 
+            y >= pocketY && y + YSIZE <= pocketY + POCKET_HEIGHT) {
+            inPocket = true;
+            BounceFrame.incrementPocketCount();
+            return false;
+        }
+        
         this.canvas.repaint();
+        return true;
     }
 }

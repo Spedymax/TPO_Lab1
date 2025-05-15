@@ -40,6 +40,7 @@ public class BounceFrame extends JFrame {
         JButton buttonStart = new JButton("Start");
         JButton buttonStop = new JButton("Stop");
         JButton buttonExperiment = new JButton("Експеримент");
+        JButton buttonJoinDemo = new JButton("Демонстрация join()");
 
         buttonStart.addActionListener(e -> {
             Ball b = new Ball(canvas);
@@ -63,10 +64,34 @@ public class BounceFrame extends JFrame {
             }
         });
 
+        buttonJoinDemo.addActionListener(e -> {
+            Ball redBall = new Ball(canvas, Color.RED);
+            canvas.add(redBall);
+            BallThread redThread = new BallThread(redBall);
+            redThread.setName("Red Ball Thread");
+            
+            Ball blueBall = new Ball(canvas, Color.BLUE);
+            canvas.add(blueBall);
+            BallThread blueThread = new BallThread(blueBall);
+            blueThread.setName("Blue Ball Thread");
+
+            blueThread.start();
+            
+            try {
+                System.out.println("Blue Ball Thread is running...");
+                blueThread.join();
+                System.out.println("Blue Ball Thread is finished, starting red ball");
+                redThread.start();
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        });
+
         buttonStop.addActionListener(e -> System.exit(0));
 
         buttonPanel.add(buttonStart);
         buttonPanel.add(buttonExperiment);
+        buttonPanel.add(buttonJoinDemo);
         buttonPanel.add(buttonStop);
 
         content.add(buttonPanel, BorderLayout.SOUTH);

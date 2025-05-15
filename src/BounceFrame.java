@@ -39,21 +39,34 @@ public class BounceFrame extends JFrame {
         
         JButton buttonStart = new JButton("Start");
         JButton buttonStop = new JButton("Stop");
+        JButton buttonExperiment = new JButton("Експеримент");
 
         buttonStart.addActionListener(e -> {
-
             Ball b = new Ball(canvas);
             canvas.add(b);
-
             BallThread thread = new BallThread(b);
             thread.start();
             System.out.println("Thread name = " + thread.getName());
         });
 
+        buttonExperiment.addActionListener(e -> {
+            Ball redBall = new Ball(canvas, Color.RED, true);
+            canvas.add(redBall);
+            BallThread redThread = new BallThread(redBall);
+            redThread.start();
+
+            for (int i = 0; i < 20000; i++) {
+                Ball blueBall = new Ball(canvas, Color.BLUE, true);
+                canvas.add(blueBall);
+                BallThread blueThread = new BallThread(blueBall);
+                blueThread.start();
+            }
+        });
+
         buttonStop.addActionListener(e -> System.exit(0));
 
-
         buttonPanel.add(buttonStart);
+        buttonPanel.add(buttonExperiment);
         buttonPanel.add(buttonStop);
 
         content.add(buttonPanel, BorderLayout.SOUTH);

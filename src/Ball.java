@@ -16,29 +16,40 @@ class Ball {
 
     private static final int POCKET_WIDTH = 60;
     private static final int POCKET_HEIGHT = 60;
+    private static final int EXPERIMENT_SPEED = 1;
+
+    public Ball(Component c, Color color, boolean isExperiment) {
+        this.canvas = c;
+        this.color = color;
+
+        if (isExperiment) {
+            x = 50;
+            y = 50;
+            dx = EXPERIMENT_SPEED;
+            dy = EXPERIMENT_SPEED;
+        } else {
+            if (Math.random() < 0.5) {
+                x = new Random().nextInt(this.canvas.getWidth());
+                y = 0;
+            } else {
+                x = 0;
+                y = new Random().nextInt(this.canvas.getHeight());
+            }
+            dx = 1 + new Random().nextInt(5);
+            dy = 1 + new Random().nextInt(5);
+        }
+    }
+
+    public Ball(Component c, Color color) {
+        this(c, color, false);
+    }
 
     public Ball(Component c) {
-        this.canvas = c;
-
-        // Випадкова початкова позиція
-        if (Math.random() < 0.5) {
-            x = new Random().nextInt(this.canvas.getWidth());
-            y = 0;
-        } else {
-            x = 0;
-            y = new Random().nextInt(this.canvas.getHeight());
-        }
-        
-        // Випадкова швидкість
-        dx = 1 + new Random().nextInt(5);
-        dy = 1 + new Random().nextInt(5);
-        
-        // Випадковий колір
-        Random rand = new Random();
-        float r = rand.nextFloat();
-        float g = rand.nextFloat();
-        float b = rand.nextFloat();
-        color = new Color(r, g, b);
+        this(c, new Color(
+            new Random().nextFloat(),
+            new Random().nextFloat(),
+            new Random().nextFloat()
+        ));
     }
 
     public void draw(Graphics2D g2) {
@@ -46,6 +57,10 @@ class Ball {
             g2.setColor(color);
             g2.fill(new Ellipse2D.Double(x, y, XSIZE, YSIZE));
         }
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public boolean move() {

@@ -1,12 +1,16 @@
 public class Counter {
     private int value = 0;
 
-    public void  increment() {
-        value++;
+    public void increment() {
+        synchronized (this) {
+            value++;
+        }
     }
 
     public void decrement() {
-        value--;
+        synchronized (this) {
+            value--;
+        }
     }
 
     public int getValue() {

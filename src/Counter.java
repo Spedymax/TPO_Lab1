@@ -1,12 +1,25 @@
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Counter {
     private int value = 0;
+    private final ReentrantLock lock = new ReentrantLock();
 
-    public synchronized void  increment() {
-        value++;
+    public void increment() {
+        lock.lock();
+        try {
+            value++;
+        } finally {
+            lock.unlock();
+        }
     }
 
-    public synchronized void decrement() {
-        value--;
+    public void decrement() {
+        lock.lock();
+        try {
+            value--;
+        } finally {
+            lock.unlock();
+        }
     }
 
     public int getValue() {

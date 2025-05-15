@@ -56,7 +56,7 @@ public class BounceFrame extends JFrame {
             BallThread redThread = new BallThread(redBall);
             redThread.start();
 
-            for (int i = 0; i < 20000; i++) {
+            for (int i = 0; i < 1000; i++) {
                 Ball blueBall = new Ball(canvas, Color.BLUE, true);
                 canvas.add(blueBall);
                 BallThread blueThread = new BallThread(blueBall);
